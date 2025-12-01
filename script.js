@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('alert-ok-btn').addEventListener('click', () => {
         document.getElementById('alert-modal').style.display = 'none';
     });
+    document.getElementById('add-task-btn').addEventListener('click', addNewTask);
+    document.getElementById('skip-add-task').addEventListener('click', skipAddTask);
 });
 
 function createWheel() {
@@ -301,8 +303,55 @@ function completeTask(completedEarly) {
     // Update completed list
     updateCompletedList();
 
-    if (!completedEarly) {
-        showAlert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
+    // Show replace task modal
+    showReplaceTaskModal();
+}
+
+function showReplaceTaskModal() {
+    const modal = document.getElementById('replace-task-modal');
+    document.getElementById('new-task-input').value = '';
+    modal.style.display = 'block';
+}
+
+function addNewTask() {
+    const newTask = document.getElementById('new-task-input').value.trim();
+
+    if (!newTask) {
+        showAlert('Please enter a task name!');
+        return;
+    }
+
+    // Find the index of the completed task and replace it
+    const taskIndex = items.indexOf(selectedItem);
+    if (taskIndex !== -1) {
+        items[taskIndex] = newTask;
+        // Remove skip count for the old task, don't carry it over
+        skippedItems.delete(selectedItem);
+    }
+
+    // Close modal
+    document.getElementById('replace-task-modal').style.display = 'none';
+
+    // Redraw the wheel with the new task
+    drawWheel();
+}
+
+function skipAddTask() {
+    // Remove the completed task from the wheel
+    const taskIndex = items.indexOf(selectedItem);
+    if (taskIndex !== -1) {
+        items.splice(taskIndex, 1);
+        skippedItems.delete(selectedItem);
+    }
+
+    // Close modal
+    document.getElementById('replace-task-modal').style.display = 'none';
+
+    // If no items left, show input section
+    if (items.length === 0) {
+        resetWheel();
+    } else {
+        drawWheel();
     }
 }
 
@@ -369,11 +418,15 @@ function resetWheel() {
 window.onclick = function(event) {
     const resultModal = document.getElementById('result-modal');
     const alertModal = document.getElementById('alert-modal');
+    const replaceModal = document.getElementById('replace-task-modal');
 
     if (event.target === resultModal) {
         resultModal.style.display = 'none';
     }
     if (event.target === alertModal) {
         alertModal.style.display = 'none';
+    }
+    if (event.target === replaceModal) {
+        replaceModal.style.display = 'none';
     }
 }
