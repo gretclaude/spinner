@@ -20,8 +20,52 @@ body {
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
+    max-width: 1200px;
     width: 100%;
+    display: flex;
+    gap: 30px;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+#completed-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    border-left: 2px solid #e5e7eb;
+    padding-left: 30px;
+}
+
+#completed-sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#completed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.completed-item {
+    padding: 10px;
+    background: #f9fafb;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.completed-item .task-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.completed-item .task-time {
+    color: #6b7280;
+    font-size: 12px;
 }
 
 h1 {
@@ -169,18 +213,40 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     background: white;
     color: #333;
-    font-size: 36px;
-    font-weight: 600;
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     z-index: 30;
+}
+
+#timer-text {
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#done-btn {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#done-btn:hover {
+    background: #16a34a;
+    transform: scale(1.05);
 }
 
 /* Modal Styles */

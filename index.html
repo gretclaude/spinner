@@ -11,22 +11,33 @@
 </head>
 <body>
     <div class="container">
-        <h1>procrastispinner</h1>
+        <div class="main-content">
+            <h1>procrastispinner</h1>
 
-        <div class="input-section">
-            <label for="items-input">Enter items (one per line):</label>
-            <textarea id="items-input" rows="8" placeholder="Pizza&#10;Movie Night&#10;Workout&#10;Study&#10;Game Time&#10;Clean Room"></textarea>
-            <button id="create-wheel-btn">Create Wheel</button>
+            <div class="input-section">
+                <label for="items-input">Enter items (one per line):</label>
+                <textarea id="items-input" rows="8" placeholder="Pizza&#10;Movie Night&#10;Workout&#10;Study&#10;Game Time&#10;Clean Room"></textarea>
+                <button id="create-wheel-btn">Create Wheel</button>
+            </div>
+
+            <div class="wheel-section" style="display: none;">
+                <div class="wheel-container">
+                    <div class="pin"></div>
+                    <canvas id="wheel-canvas"></canvas>
+                    <button id="spin-btn">SPIN</button>
+                </div>
+                <button id="reset-btn">Reset</button>
+                <div id="timer-display" style="display: none;">
+                    <div id="timer-text"></div>
+                    <button id="done-btn">Done</button>
+                </div>
+            </div>
         </div>
 
-        <div class="wheel-section" style="display: none;">
-            <div class="wheel-container">
-                <div class="pin"></div>
-                <canvas id="wheel-canvas"></canvas>
-                <button id="spin-btn">SPIN</button>
-            </div>
-            <button id="reset-btn">Reset</button>
-            <div id="timer-display" style="display: none;"></div>
+        <!-- Completed Tasks Sidebar -->
+        <div id="completed-sidebar" style="display: none;">
+            <h3>Completed</h3>
+            <div id="completed-list"></div>
         </div>
     </div>
 

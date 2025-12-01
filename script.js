@@ -1,12 +1,14 @@
 // Global variables
 let items = [];
-let skippedItems = new Set();
+let skippedItems = new Map(); // item -> skip count
+let completedTasks = []; // {task, time, completedEarly, skipCount}
 let canvas, ctx;
 let isSpinning = false;
 let currentRotation = 0;
 let selectedItem = null;
 let timerInterval = null;
 let timeRemaining = 0;
+let timerStartTime = 0;
 
 // Sophisticated color palette generator
 function getRainbowColors(count) {
@@ -55,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset-btn').addEventListener('click', resetWheel);
     document.getElementById('start-btn').addEventListener('click', startTimer);
     document.querySelector('.skip-text').addEventListener('click', skipTask);
+    document.getElementById('done-btn').addEventListener('click', () => {
+        completeTask(true);
+    });
     document.getElementById('alert-ok-btn').addEventListener('click', () => {
         document.getElementById('alert-modal').style.display = 'none';
     });
@@ -76,6 +81,11 @@ function createWheel() {
     skippedItems.clear();
     document.querySelector('.input-section').style.display = 'none';
     document.querySelector('.wheel-section').style.display = 'block';
+
+    // Show completed sidebar if there are completed tasks
+    if (completedTasks.length > 0) {
+        document.getElementById('completed-sidebar').style.display = 'block';
+    }
 
     drawWheel();
 }
@@ -124,13 +134,18 @@ function drawWheel() {
         ctx.fillText(item, radius - 20, 5);
         ctx.restore();
 
-        // Draw warning icon if skipped
-        if (skippedItems.has(item)) {
+        // Draw warning icons if skipped (one for each skip)
+        const skipCount = skippedItems.get(item) || 0;
+        if (skipCount > 0) {
             ctx.save();
             ctx.translate(centerX, centerY);
             ctx.rotate(startAngle + anglePerSegment / 2);
-            ctx.font = 'bold 30px Arial';
-            ctx.fillText('⚠️', radius / 2 - 15, 5);
+            ctx.font = 'bold 24px Arial';
+
+            // Draw multiple warning icons
+            for (let i = 0; i < Math.min(skipCount, 3); i++) {
+                ctx.fillText('⚠️', radius / 2 - 15 - (i * 28), 5);
+            }
             ctx.restore();
         }
     });
@@ -204,10 +219,11 @@ function formatTime(seconds) {
 
 function updateTimerDisplay() {
     const timerDisplay = document.getElementById('timer-display');
+    const timerText = document.getElementById('timer-text');
     const spinBtn = document.getElementById('spin-btn');
 
     if (timeRemaining > 0) {
-        timerDisplay.textContent = formatTime(timeRemaining);
+        timerText.textContent = formatTime(timeRemaining);
         timerDisplay.style.display = 'flex';
         spinBtn.disabled = true;
     } else {
@@ -229,6 +245,7 @@ function startTimer() {
 
     // Initialize timer
     timeRemaining = minutes * 60;
+    timerStartTime = minutes * 60;
     updateTimerDisplay();
 
     // Clear any existing timer
@@ -244,25 +261,76 @@ function startTimer() {
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             timerInterval = null;
-            showAlert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
+            completeTask(false);
         }
     }, 1000);
 
     console.log(`Timer started for ${minutes} minutes for task: ${selectedItem}`);
 }
 
+function completeTask(completedEarly) {
+    const elapsed = timerStartTime - timeRemaining;
+    const skipCount = skippedItems.get(selectedItem) || 0;
+
+    completedTasks.push({
+        task: selectedItem,
+        time: Math.floor(elapsed / 60),
+        completedEarly: completedEarly,
+        skipCount: skipCount
+    });
+
+    // Clear timer
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    timeRemaining = 0;
+    updateTimerDisplay();
+
+    // Update completed list
+    updateCompletedList();
+
+    if (!completedEarly) {
+        showAlert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
+    }
+}
+
+function updateCompletedList() {
+    const sidebar = document.getElementById('completed-sidebar');
+    const list = document.getElementById('completed-list');
+
+    sidebar.style.display = 'block';
+    list.innerHTML = '';
+
+    completedTasks.forEach(task => {
+        const item = document.createElement('div');
+        item.className = 'completed-item';
+
+        let taskName = task.task;
+        if (task.completedEarly) taskName = '⭐ ' + taskName;
+        if (task.skipCount > 0) {
+            taskName += ' ' + '⚠️'.repeat(Math.min(task.skipCount, 3));
+        }
+
+        item.innerHTML = `
+            <div class="task-name">${taskName}</div>
+            <div class="task-time">${task.time} min</div>
+        `;
+
+        list.appendChild(item);
+    });
+}
+
 function skipTask() {
-    // Add to skipped items
-    skippedItems.add(selectedItem);
+    // Increment skip count
+    const currentCount = skippedItems.get(selectedItem) || 0;
+    skippedItems.set(selectedItem, currentCount + 1);
 
     // Close modal
     document.getElementById('result-modal').style.display = 'none';
 
     // Redraw wheel with warning
     drawWheel();
-
-    // Show feedback
-    showAlert(`Task "${selectedItem}" skipped!\nA warning has been added to the segment. ⚠️`);
 }
 
 function resetWheel() {
@@ -277,8 +345,10 @@ function resetWheel() {
     document.querySelector('.input-section').style.display = 'block';
     document.querySelector('.wheel-section').style.display = 'none';
     document.getElementById('result-modal').style.display = 'none';
+    document.getElementById('completed-sidebar').style.display = 'none';
     items = [];
     skippedItems.clear();
+    completedTasks = [];
     currentRotation = 0;
     canvas.style.transform = 'rotate(0deg)';
     document.getElementById('items-input').value = '';
