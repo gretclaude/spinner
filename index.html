@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow Spinning Wheel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌈 Rainbow Spinning Wheel 🌈</h1>
+
+        <div class="input-section">
+            <label for="items-input">Enter items (one per line):</label>
+            <textarea id="items-input" rows="8" placeholder="Pizza&#10;Movie Night&#10;Workout&#10;Study&#10;Game Time&#10;Clean Room"></textarea>
+            <button id="create-wheel-btn">Create Wheel</button>
+        </div>
+
+        <div class="wheel-section" style="display: none;">
+            <div class="wheel-container">
+                <div class="pin"></div>
+                <canvas id="wheel-canvas"></canvas>
+            </div>
+            <button id="spin-btn">SPIN THE WHEEL!</button>
+            <button id="reset-btn">Reset Wheel</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 You landed on: <span id="selected-item"></span></h2>
+            <p class="accept-text">Accept task?</p>
+            <p class="timer-label">Set timer:</p>
+            <div class="timer-input-container">
+                <input type="number" id="timer-input" min="1" max="60" value="25">
+                <span>minutes</span>
+            </div>
+            <button id="start-btn" class="start-btn">START</button>
+            <p class="skip-text">skip for now</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
