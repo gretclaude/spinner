@@ -137,6 +137,18 @@ button {
     background: #545b62;
 }
 
+#timer-display {
+    margin-top: 20px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3);
+}
+
 /* Modal Styles */
 .modal {
     display: none;

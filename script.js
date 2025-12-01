@@ -5,6 +5,8 @@ let canvas, ctx;
 let isSpinning = false;
 let currentRotation = 0;
 let selectedItem = null;
+let timerInterval = null;
+let timeRemaining = 0;
 
 // Rainbow colors generator
 function getRainbowColors(count) {
@@ -98,7 +100,7 @@ function drawWheel() {
             ctx.translate(centerX, centerY);
             ctx.rotate(startAngle + anglePerSegment / 2);
             ctx.font = 'bold 30px Arial';
-            ctx.fillText('⚠️', radius - 60, 5);
+            ctx.fillText('⚠️', radius / 2 - 15, 5);
             ctx.restore();
         }
     });
@@ -126,17 +128,21 @@ function spinWheel() {
     const randomAngle = Math.random() * 360;
     const totalRotation = spins * 360 + randomAngle;
 
-    // Calculate which segment we'll land on
-    const finalAngle = (currentRotation + totalRotation) % 360;
+    // Calculate final position
+    const newRotation = currentRotation + totalRotation;
+    const finalAngle = newRotation % 360;
     const anglePerSegment = 360 / items.length;
 
-    // The pin is at top - calculate which segment is now at the pin position
-    const segmentIndex = Math.floor(finalAngle / anglePerSegment) % items.length;
+    // The pin is at top (12 o'clock), wheel rotates clockwise
+    // We need to find which segment ends up under the fixed pin
+    // After rotating by finalAngle, the segment that was at (-finalAngle) is now at the top
+    const adjustedAngle = (360 - finalAngle) % 360;
+    const segmentIndex = Math.floor(adjustedAngle / anglePerSegment) % items.length;
     selectedItem = items[segmentIndex];
 
-    // Animate the spin
-    canvas.style.transform = `rotate(${currentRotation + totalRotation}deg)`;
-    currentRotation = (currentRotation + totalRotation) % 360;
+    // Animate the spin - always rotate forward (clockwise)
+    canvas.style.transform = `rotate(${newRotation}deg)`;
+    currentRotation = finalAngle;
 
     // Show result after animation
     setTimeout(() => {
@@ -150,7 +156,30 @@ function showResult() {
     const modal = document.getElementById('result-modal');
     document.getElementById('selected-item').textContent = selectedItem;
     document.getElementById('timer-input').value = 25;
+
+    // Clear any existing timer
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
     modal.style.display = 'block';
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateTimerDisplay() {
+    const timerDisplay = document.getElementById('timer-display');
+    if (timeRemaining > 0) {
+        timerDisplay.textContent = `Time remaining: ${formatTime(timeRemaining)}`;
+        timerDisplay.style.display = 'block';
+    } else {
+        timerDisplay.style.display = 'none';
+    }
 }
 
 function startTimer() {
@@ -164,10 +193,27 @@ function startTimer() {
     // Close modal
     document.getElementById('result-modal').style.display = 'none';
 
-    // Show timer alert
-    alert(`Timer started for ${minutes} minute(s)!\n\nTask: ${selectedItem}\n\nGood luck! 🚀`);
+    // Initialize timer
+    timeRemaining = minutes * 60;
+    updateTimerDisplay();
 
-    // You could integrate a real timer here
+    // Clear any existing timer
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+
+    // Start countdown
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            alert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
+        }
+    }, 1000);
+
     console.log(`Timer started for ${minutes} minutes for task: ${selectedItem}`);
 }
 
@@ -186,6 +232,14 @@ function skipTask() {
 }
 
 function resetWheel() {
+    // Clear timer
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    timeRemaining = 0;
+    updateTimerDisplay();
+
     document.querySelector('.input-section').style.display = 'block';
     document.querySelector('.wheel-section').style.display = 'none';
     document.getElementById('result-modal').style.display = 'none';
