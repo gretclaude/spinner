@@ -139,7 +139,7 @@ function drawWheel() {
         ctx.rotate(startAngle + anglePerSegment / 2);
         ctx.textAlign = 'right';
         ctx.fillStyle = '#fff';
-        ctx.font = '600 16px Inter, sans-serif';
+        ctx.font = '500 16px Inter, sans-serif';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         ctx.shadowBlur = 3;
         ctx.fillText(item, radius - 20, 5);

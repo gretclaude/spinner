@@ -59,7 +59,7 @@ body {
 }
 
 .completed-item .task-name {
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 4px;
 }
 
@@ -72,7 +72,11 @@ h1 {
     text-align: center;
     margin-bottom: 30px;
     color: #333;
-    font-size: 2.5em;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4em;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .input-section {
@@ -82,8 +86,9 @@ h1 {
 label {
     display: block;
     margin-bottom: 10px;
-    font-weight: bold;
+    font-weight: 400;
     color: #555;
+    font-size: 15px;
 }
 
 textarea {
@@ -105,7 +110,7 @@ button {
     font-family: 'Inter', sans-serif;
     padding: 12px 24px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -169,7 +174,7 @@ button {
     background: white;
     color: #333;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -212,8 +217,9 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;
-    height: 220px;
+    width: 500px;
+    height: 500px;
+    max-width: 100%;
     background: white;
     color: #333;
     border-radius: 50%;
@@ -221,24 +227,26 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    gap: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     z-index: 30;
 }
 
 #timer-text {
-    font-size: 36px;
-    font-weight: 600;
+    font-size: 64px;
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
 }
 
 #done-btn {
     background: #22c55e;
     color: white;
     border: none;
-    padding: 8px 24px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -296,7 +304,7 @@ button {
 }
 
 .modal-title strong {
-    font-weight: 600;
+    font-weight: 500;
     color: #111;
 }
 
@@ -343,7 +351,7 @@ button {
     background: #3b82f6;
     color: white;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 12px 32px;
     border: none;
     border-radius: 8px;
@@ -389,7 +397,7 @@ button {
     background: #3b82f6;
     color: white;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 12px 32px;
     border: none;
     border-radius: 8px;
