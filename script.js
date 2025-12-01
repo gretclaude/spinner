@@ -147,7 +147,7 @@ function drawWheel() {
         ctx.fillText(item, radius - 20, 5);
         ctx.restore();
 
-        // Draw warning icons if skipped (one for each skip)
+        // Draw warning/fire icons if skipped
         const skipCount = skippedItems.get(item) || 0;
         if (skipCount > 0) {
             ctx.save();
@@ -155,9 +155,12 @@ function drawWheel() {
             ctx.rotate(startAngle + anglePerSegment / 2);
             ctx.font = 'bold 24px Arial';
 
-            // Draw multiple warning icons
-            for (let i = 0; i < Math.min(skipCount, 3); i++) {
-                ctx.fillText('⚠️', radius / 2 - 15 - (i * 28), 5);
+            // Draw up to 6 icons (3 warnings, then 3 fires)
+            const iconsToShow = Math.min(skipCount, 6);
+            for (let i = 0; i < iconsToShow; i++) {
+                // First 3 are warnings, 4th onwards are fire emojis
+                const emoji = i < 3 ? '⚠️' : '🔥';
+                ctx.fillText(emoji, radius / 2 - 15 - (i * 28), 5);
             }
             ctx.restore();
         }
@@ -368,8 +371,16 @@ function updateCompletedList() {
 
         let taskName = task.task;
         if (task.completedEarly) taskName = '⭐ ' + taskName;
+
+        // Add warning/fire emojis based on skip count
         if (task.skipCount > 0) {
-            taskName += ' ' + '⚠️'.repeat(Math.min(task.skipCount, 3));
+            let emojis = '';
+            const iconsToShow = Math.min(task.skipCount, 6);
+            for (let i = 0; i < iconsToShow; i++) {
+                // First 3 are warnings, 4th onwards are fire emojis
+                emojis += i < 3 ? '⚠️' : '🔥';
+            }
+            taskName += ' ' + emojis;
         }
 
         item.innerHTML = `
