@@ -74,15 +74,9 @@ function createWheel() {
         return;
     }
 
-    // Support both newlines and commas as separators
-    let rawItems;
-    if (input.includes(',')) {
-        rawItems = input.split(',');
-    } else {
-        rawItems = input.split('\n');
-    }
-
-    items = rawItems
+    // Support both commas and newlines as separators
+    items = input
+        .split(/[\n,]+/)  // Split by newlines OR commas
         .map(item => item.trim())
         .filter(item => item !== '');
 
