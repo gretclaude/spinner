@@ -149,11 +149,15 @@ function drawWheel() {
             ctx.rotate(startAngle + anglePerSegment / 2);
             ctx.font = 'bold 24px Arial';
 
-            // Draw up to 6 icons (3 warnings, then 3 fires)
-            const iconsToShow = Math.min(skipCount, 6);
-            for (let i = 0; i < iconsToShow; i++) {
-                // First 3 are warnings, 4th onwards are fire emojis
-                const emoji = i < 3 ? '⚠️' : '🔥';
+            // Always show max 3 icons
+            // 1-3 skips: show that many warnings
+            // 4+ skips: start replacing warnings with fire from left to right
+            const displayCount = Math.min(skipCount, 3);
+            const fireCount = Math.max(0, skipCount - 3); // How many fires to show
+
+            for (let i = 0; i < displayCount; i++) {
+                // If we have fires, replace warnings from left to right
+                const emoji = i < fireCount ? '🔥' : '⚠️';
                 ctx.fillText(emoji, radius / 2 - 15 - (i * 28), 5);
             }
             ctx.restore();
@@ -369,10 +373,15 @@ function updateCompletedList() {
         // Add warning/fire emojis based on skip count
         if (task.skipCount > 0) {
             let emojis = '';
-            const iconsToShow = Math.min(task.skipCount, 6);
-            for (let i = 0; i < iconsToShow; i++) {
-                // First 3 are warnings, 4th onwards are fire emojis
-                emojis += i < 3 ? '⚠️' : '🔥';
+            // Always show max 3 icons
+            // 1-3 skips: show that many warnings
+            // 4+ skips: start replacing warnings with fire from left to right
+            const displayCount = Math.min(task.skipCount, 3);
+            const fireCount = Math.max(0, task.skipCount - 3);
+
+            for (let i = 0; i < displayCount; i++) {
+                // If we have fires, replace warnings from left to right
+                emojis += i < fireCount ? '🔥' : '⚠️';
             }
             taskName += ' ' + emojis;
         }
