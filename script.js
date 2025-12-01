@@ -130,9 +130,8 @@ function spinWheel() {
     const finalAngle = (currentRotation + totalRotation) % 360;
     const anglePerSegment = 360 / items.length;
 
-    // Adjust for pin at top (12 o'clock)
-    const adjustedAngle = (360 - finalAngle + 90) % 360;
-    const segmentIndex = Math.floor(adjustedAngle / anglePerSegment) % items.length;
+    // The pin is at top - calculate which segment is now at the pin position
+    const segmentIndex = Math.floor(finalAngle / anglePerSegment) % items.length;
     selectedItem = items[segmentIndex];
 
     // Animate the spin
