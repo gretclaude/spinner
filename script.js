@@ -204,11 +204,15 @@ function formatTime(seconds) {
 
 function updateTimerDisplay() {
     const timerDisplay = document.getElementById('timer-display');
+    const spinBtn = document.getElementById('spin-btn');
+
     if (timeRemaining > 0) {
         timerDisplay.textContent = `Time remaining: ${formatTime(timeRemaining)}`;
         timerDisplay.style.display = 'block';
+        spinBtn.disabled = true;
     } else {
         timerDisplay.style.display = 'none';
+        spinBtn.disabled = false;
     }
 }
 

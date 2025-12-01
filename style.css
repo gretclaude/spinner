@@ -125,8 +125,9 @@ button {
     color: #333;
     font-size: 20px;
     font-weight: bold;
-    padding: 20px 40px;
-    border-radius: 50px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     border: 3px solid #333;
     cursor: pointer;
@@ -152,6 +153,7 @@ button {
     background: transparent;
     color: #888;
     font-size: 14px;
+    font-weight: normal;
     padding: 5px 10px;
     border: none;
     cursor: pointer;
@@ -163,15 +165,20 @@ button {
 }
 
 #timer-display {
-    margin-top: 20px;
-    padding: 15px 30px;
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px 40px;
+    background: rgba(17, 153, 142, 0.95);
     color: white;
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 30;
+    backdrop-filter: blur(5px);
 }
 
 /* Modal Styles */
