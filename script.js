@@ -118,7 +118,7 @@ function drawWheel() {
         ctx.rotate(startAngle + anglePerSegment / 2);
         ctx.textAlign = 'right';
         ctx.fillStyle = '#fff';
-        ctx.font = 'bold 16px Arial';
+        ctx.font = 'bold 16px Space Grotesk, sans-serif';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         ctx.shadowBlur = 3;
         ctx.fillText(item, radius - 20, 5);
@@ -207,8 +207,8 @@ function updateTimerDisplay() {
     const spinBtn = document.getElementById('spin-btn');
 
     if (timeRemaining > 0) {
-        timerDisplay.textContent = `Time remaining: ${formatTime(timeRemaining)}`;
-        timerDisplay.style.display = 'block';
+        timerDisplay.textContent = formatTime(timeRemaining);
+        timerDisplay.style.display = 'flex';
         spinBtn.disabled = true;
     } else {
         timerDisplay.style.display = 'none';
