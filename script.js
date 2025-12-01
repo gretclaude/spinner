@@ -72,7 +72,18 @@ function createWheel() {
         return;
     }
 
-    items = input.split('\n').filter(item => item.trim() !== '');
+    // Support both newlines and commas as separators
+    let rawItems;
+    if (input.includes(',')) {
+        rawItems = input.split(',');
+    } else {
+        rawItems = input.split('\n');
+    }
+
+    items = rawItems
+        .map(item => item.trim())
+        .filter(item => item !== '');
+
     if (items.length < 2) {
         showAlert('Please enter at least 2 items!');
         return;
@@ -128,7 +139,7 @@ function drawWheel() {
         ctx.rotate(startAngle + anglePerSegment / 2);
         ctx.textAlign = 'right';
         ctx.fillStyle = '#fff';
-        ctx.font = 'bold 16px Space Grotesk, sans-serif';
+        ctx.font = '600 16px Inter, sans-serif';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         ctx.shadowBlur = 3;
         ctx.fillText(item, radius - 20, 5);

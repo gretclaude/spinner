@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
     display: flex;
@@ -16,10 +16,8 @@ body {
 
 .container {
     position: relative;
-    background: white;
-    border-radius: 20px;
+    background: transparent;
     padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-width: 1200px;
     width: 100%;
     display: flex;
@@ -34,8 +32,10 @@ body {
 #completed-sidebar {
     width: 280px;
     flex-shrink: 0;
-    border-left: 2px solid #e5e7eb;
-    padding-left: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 #completed-sidebar h3 {
@@ -92,7 +92,7 @@ textarea {
     border: 2px solid #ddd;
     border-radius: 10px;
     font-size: 16px;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     resize: vertical;
 }
 
@@ -102,26 +102,27 @@ textarea:focus {
 }
 
 button {
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
-    margin: 5px;
+    transition: all 0.2s;
 }
 
 #create-wheel-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #3b82f6;
     color: white;
     width: 100%;
     margin-top: 15px;
 }
 
 #create-wheel-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .wheel-section {
@@ -167,22 +168,20 @@ button {
     z-index: 20;
     background: white;
     color: #333;
-    font-size: 20px;
-    font-weight: bold;
-    width: 120px;
-    height: 120px;
+    font-size: 16px;
+    font-weight: 600;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    border: 3px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border: none;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 #spin-btn:hover:not(:disabled) {
-    transform: scale(1.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    background: #333;
-    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 #spin-btn:disabled {
@@ -289,82 +288,88 @@ button {
     }
 }
 
-.modal-content h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.8em;
-}
-
-#selected-item {
-    color: #667eea;
-    display: block;
-    margin-top: 10px;
-}
-
-.accept-text {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin: 20px 0 10px 0;
-}
-
-.timer-label {
+.modal-title {
     font-size: 18px;
-    font-weight: bold;
-    color: #555;
-    margin: 15px 0 10px 0;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.modal-title strong {
+    font-weight: 600;
+    color: #111;
+}
+
+.modal-subtitle {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 24px;
+    font-weight: 400;
 }
 
 .timer-input-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin: 15px 0;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 #timer-input {
-    width: 100px;
-    padding: 10px;
-    font-size: 24px;
+    width: 80px;
+    padding: 10px 14px;
+    font-size: 16px;
     text-align: center;
-    border: 2px solid #ddd;
-    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
 #timer-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .timer-input-container span {
-    font-size: 18px;
-    color: #555;
+    font-size: 16px;
+    color: #6b7280;
+    font-weight: 400;
 }
 
 .start-btn {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    background: #3b82f6;
     color: white;
-    font-size: 22px;
-    padding: 15px 60px;
-    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
 }
 
 .start-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(56, 239, 125, 0.4);
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .skip-text {
-    color: #dc3545;
+    color: #6b7280;
     font-size: 14px;
-    margin-top: 15px;
+    margin-top: 12px;
     cursor: pointer;
     text-decoration: underline;
+    font-weight: 400;
+    transition: color 0.2s;
 }
 
 .skip-text:hover {
-    color: #a71d2a;
+    color: #374151;
 }
 
 /* Alert Modal */
@@ -381,19 +386,21 @@ button {
 }
 
 .alert-ok-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #3b82f6;
     color: white;
-    font-size: 18px;
-    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 32px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 .alert-ok-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 @media (max-width: 600px) {

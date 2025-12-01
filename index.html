@@ -6,7 +6,7 @@
     <title>procrastispinner</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
 
             <div class="input-section">
                 <label for="items-input">Enter items (one per line):</label>
-                <textarea id="items-input" rows="8" placeholder="Pizza&#10;Movie Night&#10;Workout&#10;Study&#10;Game Time&#10;Clean Room"></textarea>
+                <textarea id="items-input" rows="8" placeholder="bills&#10;water plants&#10;read the manual&#10;gym&#10;pet cat&#10;10 squats&#10;drink water"></textarea>
                 <button id="create-wheel-btn">Create Wheel</button>
             </div>
 
@@ -44,14 +44,13 @@
     <!-- Result Modal -->
     <div id="result-modal" class="modal">
         <div class="modal-content">
-            <h2>🎉 You landed on: <span id="selected-item"></span></h2>
-            <p class="accept-text">Accept task?</p>
-            <p class="timer-label">Set timer:</p>
+            <p class="modal-title">You landed on <strong id="selected-item"></strong>.</p>
+            <p class="modal-subtitle">Accept task and set a timer?</p>
             <div class="timer-input-container">
                 <input type="number" id="timer-input" min="1" max="60" value="25">
                 <span>minutes</span>
             </div>
-            <button id="start-btn" class="start-btn">START</button>
+            <button id="start-btn" class="start-btn">Start Timer</button>
             <p class="skip-text">skip for now</p>
         </div>
     </div>
