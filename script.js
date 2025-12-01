@@ -8,14 +8,41 @@ let selectedItem = null;
 let timerInterval = null;
 let timeRemaining = 0;
 
-// Rainbow colors generator
+// Sophisticated color palette generator
 function getRainbowColors(count) {
+    // Elegant, modern color palette
+    const baseColors = [
+        '#6366f1', // Indigo
+        '#8b5cf6', // Purple
+        '#ec4899', // Pink
+        '#f43f5e', // Rose
+        '#f97316', // Orange
+        '#eab308', // Yellow
+        '#22c55e', // Green
+        '#14b8a6', // Teal
+        '#0ea5e9', // Sky
+        '#3b82f6', // Blue
+    ];
+
+    // If we need more colors than in palette, interpolate
+    if (count <= baseColors.length) {
+        return baseColors.slice(0, count);
+    }
+
     const colors = [];
     for (let i = 0; i < count; i++) {
-        const hue = (i * 360) / count;
-        colors.push(`hsl(${hue}, 70%, 60%)`);
+        const index = (i * baseColors.length) / count;
+        colors.push(baseColors[Math.floor(index) % baseColors.length]);
     }
     return colors;
+}
+
+// Custom alert function
+function showAlert(message) {
+    const modal = document.getElementById('alert-modal');
+    const messageEl = document.getElementById('alert-message');
+    messageEl.textContent = message;
+    modal.style.display = 'block';
 }
 
 // Initialize the app
@@ -28,18 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset-btn').addEventListener('click', resetWheel);
     document.getElementById('start-btn').addEventListener('click', startTimer);
     document.querySelector('.skip-text').addEventListener('click', skipTask);
+    document.getElementById('alert-ok-btn').addEventListener('click', () => {
+        document.getElementById('alert-modal').style.display = 'none';
+    });
 });
 
 function createWheel() {
     const input = document.getElementById('items-input').value.trim();
     if (!input) {
-        alert('Please enter at least one item!');
+        showAlert('Please enter at least one item!');
         return;
     }
 
     items = input.split('\n').filter(item => item.trim() !== '');
     if (items.length < 2) {
-        alert('Please enter at least 2 items!');
+        showAlert('Please enter at least 2 items!');
         return;
     }
 
@@ -186,7 +216,7 @@ function startTimer() {
     const minutes = parseInt(document.getElementById('timer-input').value);
 
     if (isNaN(minutes) || minutes < 1 || minutes > 60) {
-        alert('Please enter a valid time between 1 and 60 minutes!');
+        showAlert('Please enter a valid time between 1 and 60 minutes!');
         return;
     }
 
@@ -210,7 +240,7 @@ function startTimer() {
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             timerInterval = null;
-            alert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
+            showAlert(`⏰ Time's up!\n\nTask completed: ${selectedItem}\n\nGreat job! 🎉`);
         }
     }, 1000);
 
@@ -228,7 +258,7 @@ function skipTask() {
     drawWheel();
 
     // Show feedback
-    alert(`Task "${selectedItem}" skipped! A warning has been added to the segment. ⚠️`);
+    showAlert(`Task "${selectedItem}" skipped!\nA warning has been added to the segment. ⚠️`);
 }
 
 function resetWheel() {
@@ -250,10 +280,15 @@ function resetWheel() {
     document.getElementById('items-input').value = '';
 }
 
-// Close modal when clicking outside
+// Close modals when clicking outside
 window.onclick = function(event) {
-    const modal = document.getElementById('result-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
+    const resultModal = document.getElementById('result-modal');
+    const alertModal = document.getElementById('alert-modal');
+
+    if (event.target === resultModal) {
+        resultModal.style.display = 'none';
+    }
+    if (event.target === alertModal) {
+        alertModal.style.display = 'none';
     }
 }

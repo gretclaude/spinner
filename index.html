@@ -20,14 +20,14 @@
             <div class="wheel-container">
                 <div class="pin"></div>
                 <canvas id="wheel-canvas"></canvas>
+                <button id="spin-btn">SPIN</button>
             </div>
-            <button id="spin-btn">SPIN THE WHEEL!</button>
-            <button id="reset-btn">Reset Wheel</button>
+            <button id="reset-btn">← Reset</button>
             <div id="timer-display" style="display: none;"></div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Result Modal -->
     <div id="result-modal" class="modal">
         <div class="modal-content">
             <h2>🎉 You landed on: <span id="selected-item"></span></h2>
@@ -39,6 +39,14 @@
             </div>
             <button id="start-btn" class="start-btn">START</button>
             <p class="skip-text">skip for now</p>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content alert-modal-content">
+            <p id="alert-message"></p>
+            <button id="alert-ok-btn" class="alert-ok-btn">OK</button>
         </div>
     </div>
 
